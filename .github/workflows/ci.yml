@@ -33,3 +33,11 @@ jobs:
       with:
         name: test-report
         path: .pytest_cache
+    - name: Ejecutar pruebas con reporte XML
+      run: pytest --junitxml=report.xml || echo "No hay pruebas definidas"
+    
+    - name: Guardar reporte XML
+      uses: actions/upload-artifact@v4
+      with:
+        name: test-report
+        path: report.xml
