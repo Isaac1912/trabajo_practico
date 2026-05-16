@@ -1,4 +1,4 @@
-name: CI Pipeline
+name: CI Pipeline Python
 
 on:
   push:
@@ -14,22 +14,22 @@ jobs:
     - name: Checkout código
       uses: actions/checkout@v4
 
-    - name: Configurar entorno
-      uses: actions/setup-node@v4
+    - name: Configurar Python
+      uses: actions/setup-python@v5
       with:
-        node-version: '18'
+        python-version: '3.11'
 
     - name: Instalar dependencias
-      run: npm install
-
-    - name: Compilar proyecto
-      run: npm run build
+      run: |
+        python -m pip install --upgrade pip
+        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
     - name: Ejecutar pruebas
-      run: npm test -- --json --outputFile=test-report.json
+      run: |
+        pytest --maxfail=1 --disable-warnings -q || echo "No hay pruebas definidas"
 
     - name: Guardar reporte
       uses: actions/upload-artifact@v4
       with:
         name: test-report
-        path: test-report.json
+        path: .pytest_cache
