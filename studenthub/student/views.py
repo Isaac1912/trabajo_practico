@@ -52,16 +52,6 @@ def listar_asignaturas(request):
     asignaturas = Asignatura.objects.all()
     return render(request, "asignaturas/listar.html", {"asignaturas": asignaturas})
 
-def crear_asignaturas(request):
-    form = AsignaturaForm(request.POST or None)
-    if form.is_valid():
-        form.save()
-        return redirect("student:listar_asignaturas")  # Ruta URL
-    # En caso que el formulario no sea valido, o la peticion sea de tipo GET
-    # se muestran los campos del formulario
-    return render(request, "asignaturas/crear.html", {"form": form})
-    # Renderización de la plantilla
-
 
 def editar_asignaturas(request, pk):
     # Forma 1 de llamar a un registro de estudiante
